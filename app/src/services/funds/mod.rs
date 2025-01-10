@@ -3,7 +3,7 @@
 use func::{burn, mint};
 use sails_rs::{
     collections::{HashMap, HashSet},
-    gstd::msg,
+    gstd::{exec, msg},
     prelude::*,
 };
 use vft_service::{Service as VftService, Storage};
@@ -15,14 +15,27 @@ pub struct FundStorage {
     minters: HashSet<ActorId>,
     burners: HashSet<ActorId>,
     admins: HashSet<ActorId>,
-    audience: HashMap<ActorId, u32>,
+    ticket_prices: HashMap<u32, U256>,
+    onboard_price: U256,
+    cancel_fine: U256,
 }
 
 static mut FUND_STORAGE: Option<FundStorage> = None;
 
 #[derive(Clone)]
 pub struct FundService {
-    vft: VftService,
+    pub vft: VftService,
+}
+
+impl FundStorage {
+    pub fn get_prices() -> &'static mut HashMap<u32, U256> {
+        unsafe {
+            &mut FUND_STORAGE
+                .as_mut()
+                .expect("Not initialised")
+                .ticket_prices
+        }
+    }
 }
 
 impl FundService {
@@ -33,7 +46,9 @@ impl FundService {
                 admins: [admin].into(),
                 minters: [admin].into(),
                 burners: [admin].into(),
-                audience: HashMap::new(),
+                ticket_prices: HashMap::new(),
+                onboard_price: U256::from(500),
+                cancel_fine: U256::from(250),
             });
         };
         FundService {
@@ -78,5 +93,26 @@ impl FundService {
         };
 
         burn(Storage::balances(), Storage::total_supply(), from, value)
+    }
+
+    pub fn purchase_ticket(&mut self, event_id: u32, ticket_count: u8) -> bool {
+        let ticket_price = self
+            .get()
+            .ticket_prices
+            .get(&event_id)
+            .expect("Event does not exist");
+
+        self.vft
+            .transfer(exec::program_id(), *ticket_price * ticket_count)
+    }
+
+    pub fn create_event(&mut self) -> bool {
+        self.vft
+            .transfer(exec::program_id(), self.get().onboard_price)
+    }
+
+    pub fn cancel_event(&mut self) -> bool {
+        self.vft
+            .transfer(exec::program_id(), self.get().cancel_fine)
     }
 }

@@ -1,7 +1,8 @@
- use sails_rs::collections::HashMap;
+use sails_rs::collections::HashMap;
 use sails_rs::prelude::*;
 
 use crate::services::common::Event;
+use crate::services::funds::FundStorage;
 
 pub fn create_event(
     host_id: &ActorId,
@@ -16,7 +17,10 @@ pub fn create_event(
         }
     }
 
+    let ticket_prices = FundStorage::get_prices();
+    ticket_prices.insert(event.event_id, event.initial_price);
     events.insert(*host_id, vec![event]);
+
     true
 }
 
@@ -29,6 +33,7 @@ pub fn update_event(
         for list_event in list.iter_mut() {
             if list_event.event_id == new_event.event_id {
                 *list_event = new_event;
+
                 return true;
             }
         }
@@ -46,6 +51,9 @@ pub fn cancel_event(
         for (index, list_event) in list.iter().enumerate() {
             if list_event.event_id == event_id {
                 list.remove(index);
+                let ticket_prices = FundStorage::get_prices();
+                ticket_prices.remove(&event_id);
+
                 return true;
             }
         }

@@ -2,9 +2,7 @@
 mod services;
 
 use sails_rs::prelude::*;
-use services::{
-    audience::AudienceService, common::CommonService, events::EventService, funds::FundService,
-};
+use services::{common::CommonService, events::EventService, funds::FundService};
 
 pub struct VaraTicketProgram(());
 
