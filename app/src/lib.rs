@@ -9,9 +9,9 @@ pub struct VaraTicketProgram(());
 #[sails_rs::program]
 impl VaraTicketProgram {
     // Program's constructor
-    pub fn new(name: String, symbol: String, decimals: u8) -> Self {
+    pub fn new() -> Self {
         CommonService::init();
-        FundService::seed(name, symbol, decimals);
+        FundService::seed("EZZ".to_string(), "EZZ".to_string(), 18);
         Self(())
     }
 

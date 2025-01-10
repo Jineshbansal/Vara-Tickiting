@@ -31,7 +31,7 @@ impl AudienceService {
         // using msg::send()
     }
 
-    pub fn transfer(&self, ticket_count: u8, event_id: u32, transfer_id: ActorId) -> bool {
+    pub fn transfer_ticket(&self, ticket_count: u8, event_id: u32, transfer_id: ActorId) -> bool {
         let audience = Storage::get_audience();
         transfer(
             (ticket_count, event_id, msg::source(), transfer_id),
