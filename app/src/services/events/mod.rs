@@ -1,7 +1,7 @@
 use super::common::{Event, Storage};
 use funcs::{cancel_event, create_event, update_event};
 use sails_rs::{gstd::msg, prelude::*};
-mod funcs;
+pub mod funcs;
 
 // Host can create event, update event and cancel event
 // TODO! If we implement ERC20 minting, can also add a withdraw funds functionality for the host

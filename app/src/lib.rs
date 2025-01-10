@@ -2,26 +2,7 @@
 mod services;
 
 use sails_rs::prelude::*;
-use services::{common::CommonService, events::EventService};
-
-struct VaraTicketService(());
-
-#[sails_rs::service]
-impl VaraTicketService {
-    pub fn new() -> Self {
-        Self(())
-    }
-
-    // Service's method (command)
-    pub fn do_something(&mut self) -> String {
-        "Hello from VaraTicket!".to_string()
-    }
-
-    // Service's query
-    pub fn get_something(&self) -> String {
-        "Hello from VaraTicket!".to_string()
-    }
-}
+use services::{audience::AudienceService, common::CommonService, events::EventService};
 
 pub struct VaraTicketProgram(());
 
@@ -39,5 +20,9 @@ impl VaraTicketProgram {
 
     pub fn events(&self) -> EventService {
         EventService::new()
+    }
+
+    pub fn audience(&self) -> AudienceService {
+        AudienceService::new()
     }
 }
