@@ -1,0 +1,12 @@
+{
+    "dependencies": {
+      "@gear-js/api": "^0.40.0",
+      "@gear-js/react-hooks": "^0.14.2",
+      "@polkadot/api": "^15.2.1",
+      "react": "18",
+      "react18": "^0.0.1-security",
+      "sails-js": "^0.3.1",
+      "sails-js-cli": "^0.3.1"
+    }
+  }
+  
