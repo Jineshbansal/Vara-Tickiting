@@ -79,7 +79,7 @@ impl FundService {
         }
     }
 
-    pub fn get_ticket_prices(&mut self) -> Vec<(u32, U256)> {
+    pub fn get_ticket_prices(&self) -> Vec<(u32, U256)> {
         let prices = self.get().ticket_prices.clone();
         prices.into_iter().collect()
     }
