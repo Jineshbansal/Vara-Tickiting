@@ -79,6 +79,11 @@ impl FundService {
         }
     }
 
+    pub fn get_ticket_prices(&mut self) -> Vec<(u32, U256)> {
+        let prices = self.get().ticket_prices.clone();
+        prices.into_iter().collect()
+    }
+
     pub fn mint(&mut self, to: ActorId, value: U256) -> bool {
         if !self.get().minters.contains(&msg::source()) {
             panic!("Not allowed to mint")
