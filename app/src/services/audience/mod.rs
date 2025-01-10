@@ -1,5 +1,5 @@
 use super::common::Storage;
-use funcs::{purchase_ticket, refund, transfer};
+use funcs::{purchase_ticket, cancel_refund, transfer};
 use sails_rs::{gstd::msg, prelude::*};
 pub mod funcs;
 
@@ -16,9 +16,9 @@ impl AudienceService {
         purchase_ticket((ticket_count, event_id, msg::source()), audience)
     }
 
-    pub fn refund(&self, ticket_count: u8, event_id: u32) -> bool {
+    pub fn cancel_refund(&self, ticket_count: u8, event_id: u32) -> bool {
         let audience = Storage::get_audience();
-        refund((ticket_count, event_id, msg::source()), audience)
+        cancel_refund((ticket_count, event_id, msg::source()), audience)
     }
 
     pub fn transfer(&self, ticket_count: u8, event_id: u32, transfer_id: ActorId) -> bool {

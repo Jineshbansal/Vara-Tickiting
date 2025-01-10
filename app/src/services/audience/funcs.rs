@@ -14,7 +14,7 @@ pub fn purchase_ticket(
     true
 }
 
-pub fn refund(
+pub fn cancel_refund(
     (tickets, event_id, addr): (u8, u32, ActorId),
     audience: &mut HashMap<u32, Vec<ActorId>>,
 ) -> bool {
