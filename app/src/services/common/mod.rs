@@ -86,12 +86,12 @@ impl CommonService {
         admins
     }
 
-    pub fn get_events(&mut self) -> Vec<(ActorId, Vec<Event>)> {
+    pub fn get_events(&self) -> Vec<(ActorId, Vec<Event>)> {
         let events: HashMap<ActorId, Vec<Event>> = self.get().events.clone();
         events.into_iter().collect()
     }
 
-    pub fn get_audience(&mut self) -> Vec<(u32, Vec<(ActorId, U256)>)> {
+    pub fn get_audience(&self) -> Vec<(u32, Vec<(ActorId, U256)>)> {
         let audience = self.get().audience.clone();
         audience.into_iter().collect()
     }
