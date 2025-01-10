@@ -1,4 +1,7 @@
-use super::common::{Event, Storage};
+use super::{
+    audience::AudienceService,
+    common::{Event, Storage},
+};
 use funcs::{cancel_event, create_event, update_event};
 use sails_rs::{gstd::msg, prelude::*};
 pub mod funcs;
@@ -6,13 +9,17 @@ pub mod funcs;
 // Host can create event, update event and cancel event
 // TODO! If we implement ERC20 minting, can also add a withdraw funds functionality for the host
 
-pub struct EventService(());
+pub struct EventService {
+    audience: AudienceService,
+}
 
-#[sails_rs::service]
+#[sails_rs::service(extends = AudienceService)]
 // TODO! Events implementation
 impl EventService {
     pub fn new() -> Self {
-        Self(())
+        Self {
+            audience: AudienceService::new(),
+        }
     }
 
     pub fn create_event(&self, event_details: (u32, String, String, String)) -> bool {
@@ -41,5 +48,11 @@ impl EventService {
     pub fn cancel_event(&self, event_id: u32) -> bool {
         let events = Storage::get_events();
         cancel_event(&msg::source(), event_id, events)
+    }
+}
+
+impl AsRef<AudienceService> for EventService {
+    fn as_ref(&self) -> &AudienceService {
+        &self.audience
     }
 }

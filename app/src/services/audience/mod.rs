@@ -1,14 +1,19 @@
-use super::common::Storage;
+use super::{common::Storage, funds::FundService};
 use funcs::{purchase_ticket, cancel_refund, transfer};
 use sails_rs::{gstd::msg, prelude::*};
 pub mod funcs;
 
-pub struct AudienceService(());
+#[derive(Clone)]
+pub struct AudienceService{
+    funds: FundService,
+}
 
-#[sails_rs::service]
+#[sails_rs::service(extends = FundService)]
 impl AudienceService {
     pub fn new() -> Self {
-        Self(())
+        Self{
+            funds: FundService::new(),
+        }
     }
 
     pub fn purchase_ticket(&self, ticket_count: u8, event_id: u32) -> bool {
@@ -27,5 +32,11 @@ impl AudienceService {
             (ticket_count, event_id, msg::source(), transfer_id),
             audience,
         )
+    }
+}
+
+impl AsRef<FundService> for AudienceService {
+    fn as_ref(&self) -> &FundService {
+        &self.funds
     }
 }

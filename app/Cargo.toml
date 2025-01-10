@@ -7,3 +7,4 @@ edition = "2021"
 parity-scale-codec = { version = "3.6.12", default-features = false }
 scale-info = { version = "2.11.6", default-features = false }
 sails-rs = "0.7.1"
+vft-service = {git = "https://github.com/gear-foundation/standards"}
