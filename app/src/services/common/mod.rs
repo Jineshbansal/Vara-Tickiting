@@ -2,12 +2,12 @@
 
 use sails_rs::{collections::BTreeMap, collections::HashMap, gstd::msg, prelude::*};
 
-static mut STORAGE: Option<Storage> = None;
+pub static mut STORAGE: Option<Storage> = None;
 #[derive(Default, Debug, Clone)]
 pub struct Storage {
-    events: HashMap<ActorId, Vec<Event>>,
-    audience: HashMap<u32, Vec<(ActorId, U256)>>,
-    admin: Vec<ActorId>,
+    pub events: HashMap<ActorId, Vec<Event>>,
+    pub audience: HashMap<u32, Vec<(ActorId, U256)>>,
+    pub admin: Vec<ActorId>,
 }
 
 #[derive(Default, Debug, Clone, TypeInfo, Encode, Decode)]
@@ -73,6 +73,7 @@ impl CommonService {
         false
     }
 
+    // TODO! did not returned all the events
     pub fn display_events(&self) -> BTreeMap<ActorId, Vec<Event>> {
         let events = self.get().events.clone();
         convert_to_btree(events)
