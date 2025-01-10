@@ -5625,6 +5625,7 @@ dependencies = [
  "parity-scale-codec",
  "sails-rs",
  "scale-info",
+ "vft-service",
 ]
 
 [[package]]
@@ -5643,6 +5644,18 @@ name = "version_check"
 version = "0.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
+
+[[package]]
+name = "vft-service"
+version = "1.1.0"
+source = "git+https://github.com/gear-foundation/standards#7a1adf1d3b61c7bb66b45b25adc195e9945b8222"
+dependencies = [
+ "gstd",
+ "log",
+ "parity-scale-codec",
+ "sails-rs",
+ "scale-info",
+]
 
 [[package]]
 name = "w3f-bls"

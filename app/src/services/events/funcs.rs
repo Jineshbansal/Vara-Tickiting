@@ -1,4 +1,4 @@
-use sails_rs::collections::HashMap;
+ use sails_rs::collections::HashMap;
 use sails_rs::prelude::*;
 
 use crate::services::common::Event;

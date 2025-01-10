@@ -2,15 +2,18 @@
 mod services;
 
 use sails_rs::prelude::*;
-use services::{audience::AudienceService, common::CommonService, events::EventService};
+use services::{
+    audience::AudienceService, common::CommonService, events::EventService, funds::FundService,
+};
 
 pub struct VaraTicketProgram(());
 
 #[sails_rs::program]
 impl VaraTicketProgram {
     // Program's constructor
-    pub fn new() -> Self {
+    pub fn new(name: String, symbol: String, decimals: u8) -> Self {
         CommonService::init();
+        FundService::seed(name, symbol, decimals);
         Self(())
     }
 
@@ -20,9 +23,5 @@ impl VaraTicketProgram {
 
     pub fn events(&self) -> EventService {
         EventService::new()
-    }
-
-    pub fn audience(&self) -> AudienceService {
-        AudienceService::new()
     }
 }
