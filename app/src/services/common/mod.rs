@@ -6,7 +6,7 @@ static mut STORAGE: Option<Storage> = None;
 #[derive(Default, Debug, Clone)]
 pub struct Storage {
     events: HashMap<ActorId, Vec<Event>>,
-    audience: HashMap<u32, Vec<ActorId>>,
+    audience: HashMap<u32, Vec<(ActorId, U256)>>,
     admin: Vec<ActorId>,
 }
 
@@ -16,10 +16,11 @@ pub struct Event {
     pub venue: String,
     pub time: String,
     pub description: String,
+    pub initial_price: U256,
 }
 
 impl Storage {
-    pub fn get_audience() -> &'static mut HashMap<u32, Vec<ActorId>> {
+    pub fn get_audience() -> &'static mut HashMap<u32, Vec<(ActorId, U256)>> {
         unsafe { &mut STORAGE.as_mut().expect("Not yet initialised").audience }
     }
 
