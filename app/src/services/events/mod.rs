@@ -10,7 +10,7 @@ pub mod funcs;
 // TODO! If we implement ERC20 minting, can also add a withdraw funds functionality for the host
 
 pub struct EventService {
-    audience: AudienceService,
+    pub audience: AudienceService,
 }
 
 #[sails_rs::service(extends = AudienceService)]

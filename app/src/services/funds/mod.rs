@@ -12,12 +12,12 @@ mod func;
 
 #[derive(Default)]
 pub struct FundStorage {
-    minters: HashSet<ActorId>,
-    burners: HashSet<ActorId>,
-    admins: HashSet<ActorId>,
-    ticket_prices: HashMap<u32, U256>,
-    onboard_price: U256,
-    cancel_fine: U256,
+    pub minters: HashSet<ActorId>,
+    pub burners: HashSet<ActorId>,
+    pub admins: HashSet<ActorId>,
+    pub ticket_prices: HashMap<u32, U256>,
+    pub onboard_price: U256,
+    pub cancel_fine: U256,
 }
 
 static mut FUND_STORAGE: Option<FundStorage> = None;
