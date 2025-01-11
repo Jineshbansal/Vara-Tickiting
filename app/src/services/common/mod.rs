@@ -86,7 +86,7 @@ impl CommonService {
         admins
     }
 
-    pub fn get_events(&self) -> Vec<(ActorId, Vec<Event>)> {
+    pub fn get_events_name(&self) -> Vec<(ActorId, Vec<Event>)> {
         let events: HashMap<ActorId, Vec<Event>> = self.get().events.clone();
         events.into_iter().collect()
     }

@@ -1,8 +1,11 @@
+use sails_rs::gstd::{exec, msg};
 use sails_rs::collections::HashMap;
 use sails_rs::prelude::*;
 
 use crate::services::common::Event;
 use crate::services::funds::FundStorage;
+use super::VaraEventError;
+
 
 pub fn create_event(
     host_id: &ActorId,
@@ -18,8 +21,14 @@ pub fn create_event(
     }
 
     let ticket_prices = FundStorage::get_prices();
-    ticket_prices.insert(event.event_id, event.initial_price);
-    events.insert(*host_id, vec![event]);
+    ticket_prices.insert(event.event_id.clone(), event.initial_price);
+    events.insert(*host_id, vec![event.clone()]);
+    let gas_limit:u64 = 100_000_000_000;
+    match send_delayed_notification( gas_limit, 10, event.event_id) {
+        Ok(_) => (),
+        Err(_) => return false,
+    };
+    
 
     true
 }
@@ -60,4 +69,23 @@ pub fn cancel_event(
         return false;
     }
     false
+}
+
+
+fn send_delayed_notification(
+    gas_limit: u64,
+    delay: u32,
+    event_id:u32,
+) -> Result<(), VaraEventError> {
+
+    let request = [
+        "Events".encode(),
+        "SendNotification".to_string().encode(),
+        (event_id).encode(),
+    ]
+    .concat();
+    msg::send_bytes_with_gas_delayed(exec::program_id(), request, gas_limit, 0,1).expect("Failed to send delayed message");
+
+    Ok(())
+
 }
